@@ -7,3 +7,6 @@
 /discord/
 /spotify/
 /xfce4/
+/emacs/
+!emacs/init.el
+!emacs/emacs.org
