@@ -1,0 +1,16 @@
+(defpoll calendar
+    :interval "100s"
+    "cal")
+
+(defwindow example
+    :window 0
+    :geometry (geometry :x "85%"
+			:y "40px"
+			:width "250px"
+			:height "160px")
+    (button 
+     :onclick "eww close example"
+     :class "calendar"
+     calendar)
+)
+

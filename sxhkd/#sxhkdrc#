@@ -1,0 +1,85 @@
+super + shift + r ; {r,k,p} 
+	{bspc wm -r, pkill -USR1 -x sxhkd, killall polybar && polybar &}
+
+super + Return
+	alacritty
+
+#super + r 
+#	dmenu_run
+
+super + r 
+	rofi -show drun -theme main.rasi	
+
+super + w
+	firefox
+
+super + Print
+	scrot
+
+super + shift + {F1,F2}
+	bspc config window_gap {0,12}
+
+super + {h,j,k,l}
+	bspc node -f {west,south,north,east}
+
+super + alt + {h,j,k,l}
+	bspc node -s {west,south,north,east}
+
+super + shift + c
+	bspc node -c
+
+super + shift + q
+	bspc quit
+
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+#super + shift + {h,j,k,l}
+#	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+#
+#super + control + {h,j,k,l}
+#       bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+super + shift + {h,j,k,l}
+	bspc node -z {left -20 0 || bspc node -z right -20 0, \
+			bottom 0 20 || bspc node -z top 0 20,\
+			top 0 -20 || bspc node -z bottom 0 -20,\
+			right 20 0 || bspc node -z left 20 0}
+
+# preselect the direction
+super + ctrl + {h,j,k,l}
+        bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+        bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+        bspc node -p cancel
+
+super + space 
+	bspc node -t ~floating
+
+super + f 
+	bspc config -d focused top_padding 0 && bspc node -t ~fullscreen
+
+
+
+ctrl + alt + 2
+	xvkbd -xsendevent -text '@'
+
+ctrl + alt + 7
+	xvkbd -xsendevent -text '\{'
+
+ctrl + alt + 8
+	xvkbd -xsendevent -text '['
+
+ctrl + alt + 9
+	xvkbd -xsendevent -text ']'
+
+ctrl + alt + 0
+	xvkbd -xsendevent -text '}'
+
+ctrl + alt + plus
+	xvkbd -xsendevent -text '\[backslash]'

@@ -1,0 +1,20 @@
+@keyframes fade-in {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
+}
+
+.example {
+    background-color: rgba(0,0,0,0);
+    border-radius: 5px;
+}
+
+.calendar {
+    font-family: Source Code Pro;
+    background-color: black;
+    color: white;
+    background-image: none;
+    border: none;
+    padding: 0;
+    animation: fade-in 0.3s;
+}
+
