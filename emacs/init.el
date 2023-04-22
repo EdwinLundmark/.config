@@ -14,13 +14,13 @@
 (require 'bind-key)
 (setq use-package-always-ensure t)
 
-  (use-package ivy
-    :diminish
-    :config (ivy-mode))
+(use-package ivy
+  :diminish
+  :config (ivy-mode))
 
-  (use-package swiper
-    :bind ("C-S-s" . 'swiper-isearch)
-	  ("C-S-r" . 'swiper-backward))
+(use-package swiper
+  :bind ("C-S-s" . 'swiper-isearch)
+	("C-S-r" . 'swiper-backward))
 
 (use-package diminish)
 
@@ -70,6 +70,18 @@
 (defun setup-typescript-hook () (lsp) (company-mode) (electric-pair-mode))
 	     
 (add-hook 'typescript-mode-hook 'setup-typescript-hook)
+
+(use-package rust-mode
+  :config
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+(setq rust-format-on-save t)
+(add-hook 'rust-mode-hook #'lsp)
+(add-hook 'rust-mode-hook #'company-mode))
+
+(use-package rustic)
+
+(use-package web-mode)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 ;(use-package tide
 ;  :ensure t
@@ -124,27 +136,27 @@
 			     ("\\*Help\\*" (display-buffer-below-selected) (window-height . 0.3))
 			     ("\\*Flymake Diagnostics *." (display-buffer-below-selected) (window-height . 0.25))))
 
-  (setq edde/prefix-map (make-sparse-keymap))
+(setq edde/prefix-map (make-sparse-keymap))
 
-  (setq edde/prefix-key "\C-Z")
-  (unbind-key (kbd "C-Z"))
+(setq edde/prefix-key "\C-Z")
+(unbind-key (kbd "C-Z"))
 
-  (define-minor-mode edde/prefix-mode
-    "Minor mode for custom prefix keybindings"
-    :lighter ""
-    :global t
-    :keymap edde/prefix-map)
+(define-minor-mode edde/prefix-mode
+  "Minor mode for custom prefix keybindings"
+  :lighter ""
+  :global t
+  :keymap edde/prefix-map)
 
-  (edde/prefix-mode 1)
+(edde/prefix-mode 1)
 
-  (defmacro edde/prefix-defkey (key name function)
-    (list
-     'progn
-     (list 'defun name '()
-	   '(interactive) function)
-     (list 'define-key 'edde/prefix-map
-	   (list 'concat 'edde/prefix-key key)
-	   (list 'quote name))))
+(defmacro edde/prefix-defkey (key name function)
+  (list
+   'progn
+   (list 'defun name '()
+	 '(interactive) function)
+   (list 'define-key 'edde/prefix-map
+	 (list 'concat 'edde/prefix-key key)
+	 (list 'quote name))))
 
 (unbind-key (kbd "M-0"))
 (unbind-key (kbd "M-1"))
@@ -169,7 +181,7 @@
 		    (er/expand-region 1))
 
 (edde/prefix-defkey "c" edde/config
-		    (find-file "~/.emacs.d/emacs.org"))
+		    (find-file "~/.config/emacs/emacs.org"))
 
 (defun insert-quotes (&optional arg)
   "Insert in quotes"
@@ -204,12 +216,6 @@
 ;(rainbow-mode-global 1)
 
 (add-hook 'eldoc-mode-hook 'company-mode)
-
-(defun edde/flymake-hook ()
-  (when (not (string-match "\\*Flymake Diagnostics" (format "%s" (buffer-list)))) (flymake-show-buffer-diagnostics))
-  (edde/treemacs-then-other))
-
-(add-hook 'flymake-mode-hook 'edde/flymake-hook)
 
 (setq disabled-command-function nil)
 
@@ -248,22 +254,9 @@
 
 (defun edde/org-babel-tangle-config ()
   (when (string-equal (buffer-file-name)
-                      (expand-file-name "~/.emacs.d/emacs.org"))
+                      (expand-file-name "~/.config/emacs/emacs.org"))
     ;; Dynamic scoping to the rescue
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'edde/org-babel-tangle-config)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(magit hierarchy expand-region solaire-mode rainbow-mode sr-speedbar general tree-mode counsel dracula-theme tide vterm lsp-pyright lsp-ui ccls use-package company doom-themes diminish treemacs pretty-speedbar powerline request)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

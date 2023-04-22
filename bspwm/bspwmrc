@@ -2,6 +2,7 @@
 
 xrandr --output HDMI-0 --mode 1920x1080 --rate 144.00
 sh ~/.local/scripts/mouse.sh
+sh ~/.local/scripts/mouse.sh
 xwallpaper --zoom ~/.config/xwallpaper/wallpaper
 xrdb ~/.Xresources
 picom --fade-in-step=1 --fade-out-step=1 --fade-delta=0 -b
