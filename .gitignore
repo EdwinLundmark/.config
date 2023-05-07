@@ -10,3 +10,4 @@
 /emacs/*
 !emacs/init.el
 !emacs/emacs.org
+/pulse/*

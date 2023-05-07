@@ -100,15 +100,17 @@
 
 ** LSP & C++
 #+begin_src emacs-lisp
-(use-package lsp-mode :commands lsp)
-(use-package lsp-ui :commands lsp-ui-mode)
+  (use-package lsp-mode
+    :config (setq lsp-lens-enable nil)
+    :commands lsp)
+  (use-package lsp-ui :commands lsp-ui-mode)
 
-(use-package ccls
-;  :mode "\\.cpp\\'"
-  :hook ((c-mode c++-mode objc-mode cuda-mode) .
-        (lambda () (require 'ccls) (lsp) (company-mode) (electric-pair-mode))))
-;  :config
-;  (setq ccls-executable "/home/edwin/src/ccls/Release/ccls"))
+  (use-package ccls
+  ;  :mode "\\.cpp\\'"
+    :hook ((c-mode c++-mode objc-mode cuda-mode) .
+	  (lambda () (require 'ccls) (lsp) (company-mode) (electric-pair-mode))))
+  ;  :config
+  ;  (setq ccls-executable "/home/edwin/src/ccls/Release/ccls"))
 #+end_src
 
 
@@ -142,6 +144,14 @@
       (add-hook 'rust-mode-hook #'company-mode))
 
       (use-package rustic)
+#+end_src
+
+
+** Clojure
+#+begin_src emacs-lisp
+  (use-package clojure-mode)
+
+  (use-package cider)
 #+end_src
 
 
@@ -422,7 +432,7 @@
 
 ** Olivetti
 #+begin_src emacs-lisp
-(require 'olivetti)
+;(require 'olivetti)
 #+end_src
 
 
@@ -466,6 +476,7 @@
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'edde/org-babel-tangle-config)))
 #+end_src
+
 
 
 

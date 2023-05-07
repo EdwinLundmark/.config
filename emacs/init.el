@@ -49,13 +49,15 @@
       company-idle-delay 0.0)
   (setq lsp-completion-provider :capf))
 
-(use-package lsp-mode :commands lsp)
+(use-package lsp-mode
+  :config (setq lsp-lens-enable nil)
+  :commands lsp)
 (use-package lsp-ui :commands lsp-ui-mode)
 
 (use-package ccls
 ;  :mode "\\.cpp\\'"
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
-        (lambda () (require 'ccls) (lsp) (company-mode) (electric-pair-mode))))
+	(lambda () (require 'ccls) (lsp) (company-mode) (electric-pair-mode))))
 ;  :config
 ;  (setq ccls-executable "/home/edwin/src/ccls/Release/ccls"))
 
@@ -79,6 +81,10 @@
 (add-hook 'rust-mode-hook #'company-mode))
 
 (use-package rustic)
+
+(use-package clojure-mode)
+
+(use-package cider)
 
 (use-package web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
@@ -235,7 +241,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/packages/")
 
-(require 'olivetti)
+;(require 'olivetti)
 
 (require 'compile)
 (add-hook 'c++-mode-hook
