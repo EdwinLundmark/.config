@@ -1,0 +1,85 @@
+#!/bin/python3
+
+import regex as re
+import cmd
+import math
+
+# Main loop
+
+
+
+
+options = ["*","/","+","-","^","sin","cos","tan", "(", ")", "ans", "."]
+
+
+
+class Calculator(cmd.Cmd):
+    intro = ''
+    prompt = '> '
+    file = None
+    ans = 0
+    
+    def default(self,line):
+        checked = check(line,self.ans)
+        
+        if not checked:
+            print("Error: Invalid options")
+        else:
+            self.ans = eval(checked)
+            print(self.ans)
+
+    def do_exit(self,arg):
+        return True
+    
+    def do_q(self,arg):
+        return True
+
+def check(string,ans):
+    if not any(n in string for n in options):
+           return False
+
+
+    strNoOptions = string
+    
+    for x in options:
+        strNoOptions = strNoOptions.replace(x,"")
+
+    if re.search('[^0-9 ]', strNoOptions):
+        return False
+       
+    newstr = string
+
+    if newstr[0] in ["*","/","+","-","^"]:
+        newstr = str(ans) + newstr
+
+
+    
+
+    newstr = newstr.replace("^","**")
+
+    pattern = []
+    repl = []
+    
+    pattern.append(re.compile(r"sin\((\d+)\)"))
+    pattern.append(re.compile(r"cos\((\d+)\)"))
+    pattern.append(re.compile(r"tan\((\d+)\)"))
+    #pattern[3] = re.compile(r"sin\((\d+)\)")
+    #pattern[4] = re.compile(r"sin\((\d+)\)")
+
+    
+    repl.append(r"math.sin(math.radians(\1))")
+    repl.append(r"math.cos(math.radians(\1))")
+    repl.append(r"math.tan(math.radians(\1))")
+
+    for x in range(len(pattern)):
+        newstr = pattern[x].sub(repl[x], newstr)
+
+    re.sub("\bans\b",str(ans),newstr)
+    
+    #newstr = newstr.replace("ans",str(ans))
+
+    return newstr
+
+
+    
+Calculator().cmdloop()

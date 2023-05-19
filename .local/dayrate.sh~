@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ $(date +%H) -gt 16 ] && [ $(date -r betyg.txt +%D) != $(cat lastchanged) ]
+then
+    echo "Vill du betygsätta dagen? (y/n/sen)"
+    read continue
+    if [ $continue == "n" ] || [ $continue == "sen" ]
+    then
+	exit 0
+    fi
+
+    date +%D > lastchanged
+    echo "Betygsätt hur din dag har varit från 1-10:"
+    read grade
+
+    date +%d/%m/%y >> betyg.txt
+    echo $grade >> betyg.txt
+    echo "" >> betyg.txt
+    
+fi
